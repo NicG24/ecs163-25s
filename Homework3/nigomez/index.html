@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Music and Mental Health Visualization</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100%;
+            background-image: url('background.png'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        .tooltip {
+            position: absolute;
+            background: #f4f4f4;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            pointer-events: none;
+            font-size: 12px;
+        }
+        #splash {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            z-index: 1000;
+            transition: opacity 1s ease;
+        }
+        #splash.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #main-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Splash Page -->
+    <div id="splash">
+        <h1 class="text-4xl font-bold mb-4">Music and Mental Health</h1>
+        <button onclick="showMainContent()" class="bg-white text-black px-4 py-2 rounded hover:bg-gray-300">Enter</button>
+    </div>
+
+    <!-- Main content initially hidden -->
+    <div id="main-content">
+        <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.7);"></svg>
+        <!-- Instructional Text -->
+        <div class="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-sm bg-black bg-opacity-50 px-3 py-1 rounded">
+            Brush over for details &bull; Click to zoom
+        </div>
+    </div>
+
+    <script>
+        function showMainContent() {
+            const splash = document.getElementById('splash');
+            splash.classList.add('fade-out');
+
+            setTimeout(() => {
+                splash.style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+
+                // Load main page after user has click out of splash page
+                const script = document.createElement('script');
+                script.src = 'main.js';
+                document.body.appendChild(script);
+            }, 1000); 
+        }
+    </script>
+</body>
+</html>
